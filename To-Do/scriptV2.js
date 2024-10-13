@@ -4,21 +4,26 @@ const displayTasks = () => {
     let taskDisplay = document.querySelector('#taskDisplay');
     taskDisplay.innerHTML = '';
     tasks.forEach((task, index) => {
+        // create task container
         const taskItem = document.createElement('li');
         taskItem.classList.add('bg-blue-200', 'p-2', 'm-2', 'rounded-lg', 'flex', 'justify-between', 'list-none');
 
+        // create the task title
         const taskText = document.createElement('span');
         taskText.textContent = task;
         taskItem.appendChild(taskText);
         // taskItem.textContent = task;
 
+        // create the task links container
         const taskLinks = document.createElement('div');
         taskLinks.classList.add('task-links');
 
+        // create the update and delete buttons
         const updateButton = document.createElement('a');
         updateButton.href = '#';
         updateButton.textContent = 'Update';
-        updateButton.classList.add('text-blue-500', 'ml-4');
+        updateButton.classList.add('text-blue-500', 'mr-4');
+        updateButton.addEventListener('click', () => editTask(index));
         taskLinks.appendChild(updateButton);
 
         const deleteButton = document.createElement('a');
@@ -45,6 +50,17 @@ const addTask = () => {
         tasks.push(newTask);
         newTaskInput.value = "";
         saveTaskToLocalStorage();
+        displayTasks();
+    }
+    else{
+        alert('Please enter a task')
+    }
+}
+
+const editTask = (index) => {
+    const updatedTask = prompt('Update your task', tasks[index]);
+    if(updatedTask && updatedTask.trim() !== ""){
+        tasks[index] = updatedTask.trim();
         displayTasks();
     }
     else{
